@@ -1,4 +1,11 @@
-.overflow {
-    width: 80%;
-    height: 50%;
-}
+div.overflow {
+    background: #4CAF50;
+    color: white;
+    width: 100%;  /* Consolidated width */
+    height: 600px;  /* Consolidated height */
+    overflow: scroll;
+    border: 1px solid #ccc;
+  }
+  textarea {
+    resize: none;
+  }
