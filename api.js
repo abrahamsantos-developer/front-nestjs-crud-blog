@@ -1,0 +1,40 @@
+// static obj by now
+
+export const staticPostsArray = [
+    {
+        id: 1,
+        titulo: "Título del Post 1",
+        autor: "Nombre del Autor 1",
+        fecha: "2024-04-12",
+        contenido: "Contenido del primer post. Este es un ejemplo de lo que podría ser el contenido de tu blog."
+    },
+    {
+        id: 2,
+        titulo: "Título del Post 2",
+        autor: "Nombre del Autor 2",
+        fecha: "2024-04-13",
+        contenido: "Contenido del segundo post. Cada post puede tener su propia historia y detalles únicos."
+    },
+    {
+        id: 3,
+        titulo: "Título del Post 3",
+        autor: "Nombre del Autor 3",
+        fecha: "2024-04-14",
+        contenido: "Contenido del tercer post. La variedad en los temas puede ayudar a mantener interesados a tus lectores."
+    },
+    {
+        id: 4,
+        titulo: "Título del Post 4",
+        autor: "Nombre del Autor 4",
+        fecha: "2024-04-15",
+        contenido: "Contenido del cuarto post. Aquí podrías hablar sobre las actualizaciones futuras de tu blog o sitio web."
+    },
+    {
+        id: 5,
+        titulo: "Título del Post 5",
+        autor: "Nombre del Autor 5",
+        fecha: "2024-04-16",
+        contenido: "Contenido del quinto post."
+    }
+];
+
