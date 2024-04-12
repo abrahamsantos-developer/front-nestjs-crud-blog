@@ -1,23 +1,19 @@
+// Import the array from api.js
+import { staticPostsArray } from './api.js';
 
-export function renderPosts(posts, elementId) {
-    const postsListElement = document.getElementById(elementId);
-
-    posts.forEach(post => {
-        const postElement = document.createElement('a');
-        postElement.className = 'list-group-item list-group-item-action';
-        postElement.setAttribute('aria-current', 'true');
-        postElement.href = '#';
-
-        postElement.innerHTML = `
-            <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">${post.titulo}</h5>
-                <small>${post.fecha}</small>
+export function renderPosts() {
+    const postsListElement = document.getElementById('card-post');
+    const html = staticPostsArray.map(post => {
+        return `
+            <div class="card">
+                <h5 class="card-header">${post.autor}</h5>
+                <div class="card-body">
+                    <h5 class="card-title">${post.titulo}</h5>
+                    <p class="card-text">${post.contenido.substring(0, 70)}...</p>
+                    <a href="#" class="btn btn-primary">Ver más</a>
+                </div>
             </div>
-            <p class="mb-1">${post.contenido.substring(0, 70)}</p>
-            <small>${post.autor}</small>
-            <a href="#" class="btn btn-info">Ver post completo</a>
         `;
-        
-        postsListElement.appendChild(postElement);
-    });
+    }).join('');
+    postsListElement.innerHTML = html;
 }

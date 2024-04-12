@@ -35,6 +35,27 @@ export const staticPostsArray = [
         autor: "Nombre del Autor 5",
         fecha: "2024-04-16",
         contenido: "Contenido del quinto post."
+    },
+    {
+        id: 6,
+        titulo: "Título del Post 6",
+        autor: "Nombre del Autor 6",
+        fecha: "2024-04-16",
+        contenido: "Contenido del sexto post."
+    },
+    {
+        id: 7,
+        titulo: "Título del Post 7",
+        autor: "Nombre del Autor 7",
+        fecha: "2024-04-16",
+        contenido: "Contenido del septimo post."
+    },
+    {
+        id: 8,
+        titulo: "Título del Post 8",
+        autor: "Nombre del Autor 8",
+        fecha: "2024-04-16",
+        contenido: "Contenido del octavo post."
     }
 ];
 
