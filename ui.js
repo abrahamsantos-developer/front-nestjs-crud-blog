@@ -1,8 +1,7 @@
-// Import the array from api.js
 import { staticPostsArray } from './api.js';
 
 export function renderPosts() {
-    const postsListElement = document.getElementById('card-post');
+    const postsListElement = document.getElementById('posts-container');
     const html = staticPostsArray.map(post => {
         return `
             <div class="card my-2">
@@ -18,20 +17,37 @@ export function renderPosts() {
     }).join('');
     postsListElement.innerHTML = html;
 }
+export function attachFormSubmitListener() {
+    const form = document.getElementById('new-post-form');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(form);
+        const newPost = {
+            id: staticPostsArray.length + 1,
+            titulo: formData.get('title'),
+            autor: formData.get('author'),
+            fecha: formData.get('date'),
+            contenido: formData.get('content')
+        };
+        staticPostsArray.unshift(newPost); // Or push(), depending on desired order
+        renderPosts();
+    });
+}
 
-document.getElementById('new-post-form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent the form from submitting the traditional way
 
-    const formData = new FormData(this);
-    const newPost = {
-        id: staticPostsArray.length + 1, // Creating a new ID
-        titulo: formData.get('title'),
-        autor: formData.get('author'),
-        fecha: formData.get('date'),
-        contenido: formData.get('content')
-    };
+// document.getElementById('new-post-form').addEventListener('submit', function(event) {
+//     event.preventDefault(); 
 
-    staticPostsArray.unshift(newPost); // Add the new post to the array
-    renderPosts(); // Re-render the posts including the new one
-});
+//     const formData = new FormData(this);
+//     const newPost = {
+//         id: staticPostsArray.length + 1, // Crea nuevo ID para post
+//         titulo: formData.get('title'),
+//         autor: formData.get('author'),
+//         fecha: formData.get('date'),
+//         contenido: formData.get('content')
+//     };
+
+//     staticPostsArray.unshift(newPost); // Agrega el post al array en el primer lugar
+//     renderPosts(); //Re-rendderiza posts
+// });
 
