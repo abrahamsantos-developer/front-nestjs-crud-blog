@@ -36,12 +36,23 @@
                     <div class="card" style=" padding-bottom: 0.5rem">
                         <div class="card-header">
                           <h2>Crear post</h2>
-                        </div>
-                        <form id="new-post-form">
-                            <input type="text" class="form-control mb-3" name="title" placeholder="Add title" required>
-                            <input type="text" class="form-control mb-3" name="author" placeholder="Add author" required>
-                            <input type="date" class="form-control mb-3" name="date" required>
-                            <textarea class="form-control mb-3" name="content" rows="5" maxlength="300" placeholder="Escribe tu post..." required></textarea>
+                        </div><form id="new-post-form">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control mb-2" name="title" placeholder="Agrega titulo" maxlength="70" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control mb-2" name="author" placeholder="Agrega autor" maxlength="70" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="date" class="form-control mb-2" name="date" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <textarea class="form-control mb-2" name="content" rows="3" maxlength="500" placeholder="Escribe tu post..." required></textarea>
+                                </div>
+                            </div>
                             <button type="submit" class="btn btn-primary">Publicar</button>
                         </form>
                       </div>
