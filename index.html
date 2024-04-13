@@ -19,11 +19,11 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/">Home</a>
+                            <a class="nav-link active" aria-current="page" href="/">Login</a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link" href="/create">Create Entry</a>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </div>
@@ -34,15 +34,12 @@
             <div class="row">
                 <div class="col">
                     <div class="card" style=" padding-bottom: 0.5rem">
-                        <!-- <div class="card-header">
-                          <h2>Crear post</h2> 
-                        </div> -->
                         <form id="new-post-form">
                             <div class="card-header">
                                 <h2>Crear post</h2>
                                 <button type="submit" class="btn btn-primary">Publicar</button>
     <button type="button" class="btn btn-danger">Descartar</button> 
-                              </div>
+                              </div>              
                             <div class="row">
                                 <div class="col-md-6">
                                     <input type="text" class="form-control mb-2" name="title" placeholder="Agrega titulo" maxlength="70" required>
@@ -53,7 +50,6 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <!-- <input type="text" class="form-control mb-2" name="date" placeholder="Fecha de post(autogenerada)" id="post-date" required> -->
                                     <input type="text" class="form-control mb-2" name="date" id="post-date" placeholder="Fecha de post (autogenerada)" readonly required title="La fecha se genera automáticamente">
 
 
@@ -62,10 +58,10 @@
                                     <textarea class="form-control mb-2" name="content" rows="3" maxlength="500" placeholder="Escribe tu post..." required></textarea>
                                 </div>
                             </div>
-                            <!-- <button type="submit" class="btn btn-primary">Publicar</button> -->
+    
                         </form>
                       </div>
-                      
+
                       <div class="card">
                         <h3 class="card-header" style="padding-top: 0.5rem; padding-bottom: 0.5rem" ;>Historial</h3>
                       </div>
