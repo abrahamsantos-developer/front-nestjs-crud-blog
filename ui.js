@@ -1,23 +1,5 @@
 import { staticPostsArray } from './api.js';
 
-// export function renderPosts() {
-//     const postsListElement = document.getElementById('posts-container');
-//     const html = staticPostsArray.map(post => {
-//         return `
-//             <div class="card my-2">
-//                 <h5 class="card-header">${post.autor}</h5>
-//                 <div class="card-body">
-//                     <h5 class="card-title">${post.titulo}</h5>
-//                     <h9 class="card-title">${post.fecha}</h9>
-//                     <p class="card-text">${post.contenido.substring(0, 70)}...</p>
-//                     <a href="#" class="btn btn-info">Ver más</a>
-//                 </div>
-//             </div>
-//         `;
-//     }).join('');
-//     postsListElement.innerHTML = html;
-// }
-
 export function renderPosts() {
     const postsListElement = document.getElementById('posts-container');
     const html = staticPostsArray.map(post =>
@@ -34,14 +16,13 @@ export function renderPosts() {
         </div>
     `).join('');
     postsListElement.innerHTML = html;
-    attachToggleListeners();
 }
 
 export function attachFormSubmitListener() {
     const form = document.getElementById('new-post-form');
     form.addEventListener('submit', function(event) {
         event.preventDefault();
-        const formData = new FormData(form);
+        const formData = new FormData(form); 
         const newPost = {
             id: staticPostsArray.length + 1,
             titulo: formData.get('title'),
@@ -51,10 +32,11 @@ export function attachFormSubmitListener() {
         };
         staticPostsArray.unshift(newPost); // Or push(), depending on desired order
         renderPosts();
+        toggleListeners(); 
     });
 }
 
-export function attachToggleListeners() {
+export function toggleListeners() {
     const toggleButtons = document.querySelectorAll('.toggle-content');
     toggleButtons.forEach(button => {
         button.addEventListener('click', function() {
@@ -73,5 +55,18 @@ export function attachToggleListeners() {
         });
     });
 }
+
+export function discardButtonListener() {
+    const discardButton = document.getElementById('discard-button');
+    const form = document.getElementById('new-post-form');
+
+    console.log(discardButton); // Check if the button is selected correctly
+    console.log(form); // Check if the form is selected correctly
+
+    discardButton.addEventListener('click', function() {
+        form.reset();  
+    });
+}
+
 
 

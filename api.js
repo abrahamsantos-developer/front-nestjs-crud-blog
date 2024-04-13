@@ -1,4 +1,4 @@
-// static obj by now
+
 
 export const staticPostsArray = [
     {
