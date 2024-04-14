@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,12 +9,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="index.css">
 </head>
+
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
                 <a class="navbar-brand" href="/">Abraham's Blog.</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
@@ -21,9 +24,6 @@
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/">Login</a>
                         </li>
-                        <!-- <li class="nav-item">
-                            <a class="nav-link" href="/create">Create Entry</a>
-                        </li> -->
                     </ul>
                 </div>
             </div>
@@ -37,45 +37,55 @@
                         <form id="new-post-form">
                             <div class="card">
                                 <div class="card-header d-flex justify-content-between align-items-center">
-                                    <h2 class="mb-0">Crear post</h2> <!-- mb-0 removes the margin from the bottom of the heading -->
+                                    <h2 class="mb-0">Crear post</h2>
+                                    <!-- mb-0 removes the margin from the bottom of the heading -->
                                     <div>
                                         <button type="submit" class="btn btn-primary me-2">Publicar</button>
-                                        <button type="button" class="btn btn-danger" id="discard-button">Descartar</button>
+                                        <button type="button" class="btn btn-danger"
+                                            id="discard-button">Descartar</button>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control mb-2" name="title" placeholder="Agrega titulo" maxlength="70" required>
+                                    <input type="text" class="form-control mb-2" name="title"
+                                        placeholder="Agrega titulo" maxlength="70" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control mb-2" name="author" placeholder="Agrega autor" maxlength="70" required>
+                                    <input type="text" class="form-control mb-2" name="author"
+                                        placeholder="Agrega autor" maxlength="70" required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control mb-2" name="date" id="post-date" placeholder="Fecha de post (autogenerada)" readonly required title="La fecha se genera automáticamente">
+                                    <input type="text" class="form-control mb-2" name="date" id="post-date"
+                                        placeholder="Fecha de post (autogenerada)" readonly required
+                                        title="La fecha se genera automáticamente">
 
 
                                 </div>
                                 <div class="col-md-6">
-                                    <textarea class="form-control mb-2" name="content" rows="3" maxlength="500" placeholder="Escribe tu post..." required></textarea>
+                                    <textarea class="form-control mb-2" name="content" rows="3" maxlength="500"
+                                        placeholder="Escribe tu post..." required></textarea>
                                 </div>
                             </div>
-    
-                        </form>
-                      </div>
 
-                      <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center" style="padding-top: 0.5rem; padding-bottom: 0.5rem;">
+                        </form>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center"
+                            style="padding-top: 0.5rem; padding-bottom: 0.5rem;">
                             <h3 class="mb-0">Historial</h3>
-                            <div class="dropdown"> 
-                                <button class="btn btn-primary dropdown-toggle fs-5.5 p-1.5" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle fs-5.5 p-1.5" type="button"
+                                    id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                     Buscar Entradas
                                 </button>
-                                
+
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <li><input type="text" class="form-control" placeholder="Buscar..." id="search-input"></li>
+                                    <li><input type="text" class="form-control" placeholder="Buscar..."
+                                            id="search-input"></li>
                                     <li>
                                         <select class="form-select" id="search-type">
                                             <option value="titulo">Título</option>
@@ -89,14 +99,14 @@
                         </div>
                     </div>
                     
-                      <div class="overflow" id="overflow">
-                        <div class="card p-5" id="posts-container">
-                            
+                      <div class=" overflow" id="overflow">
+                                            <div class="card p-5" id="posts-container">
+
+                                            </div>
                             </div>
-                          </div>
-                      </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
         </section>
     </main>
     <footer class="bg-dark text-light text-center py-3 mt-auto">
@@ -106,4 +116,5 @@
     <!-- Bootstrap JS with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
