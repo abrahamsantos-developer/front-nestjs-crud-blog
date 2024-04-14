@@ -1,8 +1,24 @@
 import { staticPostsArray } from './api.js';
 
-export function renderPosts() {
+export function filterPosts() {
+    const searchInput = document.getElementById('search-input').value.toLowerCase();
+    const searchType = document.getElementById('search-type').value;
+
+    console.log("Search Input: ", searchInput); // Debug input
+    console.log("Search Type: ", searchType); // Debug type
+
+    const filteredPosts = staticPostsArray.filter(post => 
+        post[searchType].toLowerCase().includes(searchInput)
+    );
+    
+    console.log("Filtered Posts: ", filteredPosts); // Debug output
+
+    renderPosts(filteredPosts);
+}
+
+export function renderPosts(posts = staticPostsArray) {
     const postsListElement = document.getElementById('posts-container');
-    const html = staticPostsArray.map(post =>
+    const html = posts.map(post =>
         `
         <div class="card my-2">
             <h5 class="card-header">${post.autor}</h5>
@@ -16,6 +32,7 @@ export function renderPosts() {
         </div>
     `).join('');
     postsListElement.innerHTML = html;
+    toggleListeners();
 }
 
 export function attachFormSubmitListener() {

@@ -1,6 +1,6 @@
 
 
-import { renderPosts, attachFormSubmitListener, discardButtonListener  } from './ui.js';
+import { renderPosts, attachFormSubmitListener, discardButtonListener, filterPosts  } from './ui.js';
 import { setCurrentDate } from './SetDateUtils.js';
 
 
@@ -9,5 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderPosts();
     attachFormSubmitListener();
     discardButtonListener();
+
+    document.getElementById('search-button').addEventListener('click', filterPosts);
 });
 

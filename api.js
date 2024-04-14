@@ -3,22 +3,22 @@
 export const staticPostsArray = [
     {
         id: 1,
-        titulo: "Título del Post 1",
-        autor: "Nombre del Autor 1",
+        titulo: "hola",
+        autor: "leona",
         fecha: "2024-04-12",
         contenido: "Contenido del primer post. Este es un ejemplo de lo que podría ser el contenido de tu blog."
     },
     {
         id: 2,
-        titulo: "Título del Post 2",
-        autor: "Nombre del Autor 2",
+        titulo: "hoa hola",
+        autor: "Sofi",
         fecha: "2024-04-13",
         contenido: "Contenido del segundo post. Cada post puede tener su propia historia y detalles únicos."
     },
     {
         id: 3,
-        titulo: "Título del Post 3",
-        autor: "Nombre del Autor 3",
+        titulo: "Hola Hola hola",
+        autor: "Vale",
         fecha: "2024-04-14",
         contenido: "Contenido del tercer post. La variedad en los temas puede ayudar a mantener interesados a tus lectores."
     },
