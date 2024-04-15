@@ -154,34 +154,41 @@ export function attachFormSubmitListener() {
   form.addEventListener("submit", function (event) {
     event.preventDefault();
     const formData = new FormData(this);
-    const postId = formData.get("post-id");
 
     const postDetails = {
       title: formData.get("title"),
+      username: formData.get("username"),
       content: formData.get("content"),
     };
 
+    console.log("Enviando post:", postDetails);  // Verificar los datos que se envían
+
     const fetchOptions = {
-      method: postId ? 'PUT' : 'POST',
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(postDetails),
     };
 
-    const url = postId ? `http://localhost:3000/posts/${postId}` : 'http://localhost:3000/posts';
-
-    fetch(url, fetchOptions)
-      .then(response => response.json())
+    fetch("http://localhost:3000/posts", fetchOptions)
+      .then(response => {
+        console.log("Respuesta recibida", response);
+        if (!response.ok) {
+          throw new Error('Error al crear el post');
+        }
+        return response.json();
+      })
       .then(post => {
-        alert('Post saved successfully!');
-        form.reset();
+        console.log("Post creado con éxito:", post);
+        alert('Post creado con éxito!');
         fetchPostsAndUpdateUI();  // Actualiza la lista de posts
       })
       .catch(error => {
-        console.error('Error saving post:', error);
-        alert('Error saving post');
+        console.error('Error al crear el post:', error);
+        alert('Error al crear el post');
       });
   });
 }
+
 
 
 export function toggleListeners() {
