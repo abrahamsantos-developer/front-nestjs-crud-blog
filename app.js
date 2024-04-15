@@ -1,5 +1,4 @@
 import {
-  //renderPosts,
   fetchPostsAndUpdateUI,
   attachFormSubmitListener,
   discardButtonListener,
@@ -9,8 +8,7 @@ import { setCurrentDate } from "./SetDateUtils.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   setCurrentDate("post-date");
-  fetchPostsAndUpdateUI();  
-  //renderPosts();
+  fetchPostsAndUpdateUI();
   attachFormSubmitListener();
   discardButtonListener();
 
