@@ -2,7 +2,7 @@
 export function filterPosts() {
   const searchInput = document.getElementById("search-input").value.toLowerCase();
   const searchType = document.getElementById("search-type").value;
-  let url = `http://localhost:5500/posts`;
+  let url = `http://localhost:3000/api/posts`;
 
   switch (searchType) {
     case "username":
@@ -115,7 +115,7 @@ function deletePost(postId) {
 
 // carga los datos del post en el formulario
 function fetchPostDataAndFillForm(postId) {
-  fetch(`http://localhost:5500/posts/${postId}`)
+  fetch(`http://localhost:3000/api/posts/${postId}`)
     .then(response => {
       if (!response.ok) throw new Error('Error para obtener datos');
       return response.json();
@@ -135,7 +135,7 @@ function fetchPostDataAndFillForm(postId) {
 
 //refactorizar para ordenar desde backend(DB)
 export function fetchPostsAndUpdateUI() {
-  fetch('http://localhost:5500/posts')  // Ajusta la URL a tu endpoint del backend
+  fetch('http://localhost:3000/api/posts')  // Ajusta la URL a tu endpoint del backend
     .then(response => {
       if (!response.ok) throw new Error('Error al recuperar los posts');
       return response.json();
@@ -171,7 +171,7 @@ export function attachFormSubmitListener() {
       body: JSON.stringify(postDetails),
     };
 
-    fetch("http://localhost:5500/posts", fetchOptions)
+    fetch("http://localhost:3000/api/posts", fetchOptions)
       .then(response => {
         console.log("Respuesta recibida", response);
         if (!response.ok) {
@@ -226,7 +226,6 @@ export function discardButtonListener() {
 }
 
 
-// Agrega esta función para abrir el modal de edición con los datos del post
 export function openEditModal(postId) {
   fetchPostDataAndFillForm(postId);
   const editPostModal = new bootstrap.Modal(document.getElementById('editPostModal'));
@@ -241,7 +240,7 @@ export async function editPost(postId, updatedPostDetails) {
   };
 
   try {
-    const response = await fetch(`http://localhost:5500/posts/${postId}`, fetchOptions);
+    const response = await fetch(`http://localhost:3000/api/posts/${postId}`, fetchOptions);
     if (!response.ok) {
       throw new Error('Error al editar el post');
     }
@@ -258,7 +257,7 @@ export async function editPost(postId, updatedPostDetails) {
 
 
 
-// Agrega esta función para adjuntar un evento de clic a los botones de edición
+// adjunta un evento de clic a los botones de edición
 export function attachEditPostListener() {
   const editButtons = document.querySelectorAll(".edit-post");
 
