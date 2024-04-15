@@ -2,7 +2,7 @@
 export function filterPosts() {
   const searchInput = document.getElementById("search-input").value.toLowerCase();
   const searchType = document.getElementById("search-type").value;
-  let url = `http://localhost:3000/posts`;
+  let url = `http://localhost:5500/posts`;
 
   switch (searchType) {
     case "username":
@@ -98,7 +98,7 @@ function attachEditAndDeleteListeners() {
 }
 
 function deletePost(postId) {
-  fetch(`http://localhost:3000/posts/${postId}`, {
+  fetch(`http://localhost:5500/posts/${postId}`, {
     method: 'DELETE'
   })
   .then(response => {
@@ -115,7 +115,7 @@ function deletePost(postId) {
 
 // carga los datos del post en el formulario
 function fetchPostDataAndFillForm(postId) {
-  fetch(`http://localhost:3000/posts/${postId}`)
+  fetch(`http://localhost:5500/posts/${postId}`)
     .then(response => {
       if (!response.ok) throw new Error('Error para obtener datos');
       return response.json();
@@ -135,7 +135,7 @@ function fetchPostDataAndFillForm(postId) {
 
 //refactorizar para ordenar desde backend(DB)
 export function fetchPostsAndUpdateUI() {
-  fetch('http://localhost:3000/posts')  // Ajusta la URL a tu endpoint del backend
+  fetch('http://localhost:5500/posts')  // Ajusta la URL a tu endpoint del backend
     .then(response => {
       if (!response.ok) throw new Error('Error al recuperar los posts');
       return response.json();
@@ -171,7 +171,7 @@ export function attachFormSubmitListener() {
       body: JSON.stringify(postDetails),
     };
 
-    fetch("http://localhost:3000/posts", fetchOptions)
+    fetch("http://localhost:5500/posts", fetchOptions)
       .then(response => {
         console.log("Respuesta recibida", response);
         if (!response.ok) {
@@ -241,7 +241,7 @@ export async function editPost(postId, updatedPostDetails) {
   };
 
   try {
-    const response = await fetch(`http://localhost:3000/posts/${postId}`, fetchOptions);
+    const response = await fetch(`http://localhost:5500/posts/${postId}`, fetchOptions);
     if (!response.ok) {
       throw new Error('Error al editar el post');
     }
