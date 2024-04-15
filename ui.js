@@ -38,8 +38,6 @@ export function filterPosts() {
     });
 }
 
-
-
 export function renderPosts(posts) {
   const postsListElement = document.getElementById("posts-container");
   const html = posts
@@ -84,7 +82,8 @@ function attachEditAndDeleteListeners() {
   editButtons.forEach(button => {
     button.addEventListener("click", function() {
       const postId = this.getAttribute('data-id');
-      fetchPostDataAndFillForm(postId);  // para manejar la carga de datos
+      openEditModal(postId); 
+      //fetchPostDataAndFillForm(postId);  // para manejar la carga de datos
     });
   });
 
@@ -92,7 +91,7 @@ function attachEditAndDeleteListeners() {
     button.addEventListener("click", function() {
       const postId = this.getAttribute('data-id');
       if (confirm("¿Estás seguro de que deseas eliminar este post?")) {
-        deletePost(postId);  // Función para manejar la eliminación del post
+        deletePost(postId);  // para manejar la eliminación del post
       }
     });
   });
@@ -113,15 +112,16 @@ function deletePost(postId) {
   });
 }
 
-// Función para cargar los datos del post en el formulario
+
+// carga los datos del post en el formulario
 function fetchPostDataAndFillForm(postId) {
   fetch(`http://localhost:3000/posts/${postId}`)
     .then(response => {
-      if (!response.ok) throw new Error('Failed to fetch post data');
+      if (!response.ok) throw new Error('Error para obtener datos');
       return response.json();
     })
     .then(post => {
-      const form = document.getElementById("new-post-form");
+      const form = document.getElementById("edit-post-form");
       form.elements["title"].value = post.title;
       form.elements["username"].value = post.username;  
       form.elements["content"].value = post.content;
@@ -129,7 +129,7 @@ function fetchPostDataAndFillForm(postId) {
     })
     .catch(error => {
       console.error('Error:', error);
-      alert('Error loading post data');
+      alert('Error cargando datos de posts');
     });
 }
 
@@ -141,8 +141,8 @@ export function fetchPostsAndUpdateUI() {
       return response.json();
     })
     .then(posts => {
-      posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // Ordena por fecha, de más reciente a más antiguo
-      renderPosts(posts);  // Suponiendo que tienes una función renderPosts para actualizar la UI
+      posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); 
+      renderPosts(posts);  
     })
     .catch(error => {
       console.error('Error al recuperar posts:', error);
@@ -150,6 +150,7 @@ export function fetchPostsAndUpdateUI() {
     });
 }
 
+// ya no se usara
 export function attachFormSubmitListener() {
   const form = document.getElementById("new-post-form");
   form.addEventListener("submit", function (event) {
@@ -223,4 +224,75 @@ export function discardButtonListener() {
     form.reset();
   });
 }
+
+
+// Agrega esta función para abrir el modal de edición con los datos del post
+export function openEditModal(postId) {
+  fetchPostDataAndFillForm(postId);
+  const editPostModal = new bootstrap.Modal(document.getElementById('editPostModal'));
+  editPostModal.show();
+}
+
+export async function editPost(postId, updatedPostDetails) {
+  const fetchOptions = {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(updatedPostDetails),
+  };
+
+  try {
+    const response = await fetch(`http://localhost:3000/posts/${postId}`, fetchOptions);
+    if (!response.ok) {
+      throw new Error('Error al editar el post');
+    }
+    const updatedPost = await response.json();
+    console.log('Post editado con éxito:', updatedPost);
+    fetchPostsAndUpdateUI(); // Actualiza la lista de posts después de editar
+    return updatedPost;
+  } catch (error) {
+    console.error('Error al editar el post:', error);
+    alert('Error al editar el post');
+  }
+}
+
+
+
+
+// Agrega esta función para adjuntar un evento de clic a los botones de edición
+export function attachEditPostListener() {
+  const editButtons = document.querySelectorAll(".edit-post");
+
+  editButtons.forEach(button => {
+    button.addEventListener("click", function() {
+      const postId = this.getAttribute('data-id');
+      openEditModal(postId);
+    });
+  });
+
+  const editPostForm = document.getElementById("edit-post-form");
+  editPostForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    const formData = new FormData(this);
+
+    const updatedPostDetails = {
+      title: formData.get("title"),
+      username: formData.get("username"),
+      content: formData.get("content"),
+    };
+
+    const postId = formData.get("post-id");
+
+    editPost(postId, updatedPostDetails)
+      .then(() => {
+        const editPostModal = new bootstrap.Modal(document.getElementById('editPostModal'));
+        editPostModal.hide();
+        fetchPostsAndUpdateUI(); // Actualiza la lista de posts
+      })
+      .catch(error => {
+        console.error('Error al editar el post:', error);
+        alert('Error al editar el post');
+      });
+  });
+}
+
 
