@@ -1,20 +1,3 @@
-// export function filterPosts() {
-//   const searchInput = document
-//     .getElementById("search-input")
-//     .value.toLowerCase();
-//   const searchType = document.getElementById("search-type").value;
-
-//   console.log("Search Input: ", searchInput); // Debug input
-//   console.log("Search Type: ", searchType); // Debug type
-
-//   const filteredPosts = staticPostsArray.filter((post) =>
-//     post[searchType].toLowerCase().includes(searchInput)
-//   );
-
-//   console.log("Posts filtrados: ", filteredPosts);
-
-//   renderPosts(filteredPosts);
-// }
 
 export function filterPosts() {
   const searchInput = document.getElementById("search-input").value.toLowerCase();
@@ -54,7 +37,6 @@ export function filterPosts() {
       alert("Error al recuperar posts filtrados");
     });
 }
-
 
 
 export function renderPosts(posts) {
@@ -97,25 +79,46 @@ function attachEditAndDeleteListeners() {
   const editButtons = document.querySelectorAll(".edit-post");
   const deleteButtons = document.querySelectorAll(".delete-post");
 
-  editButtons.forEach((button) => {
-    button.addEventListener("click", function () {
-      const postId = this.getAttribute("data-id");
-      editPost(postId); // Función para manejar la edición del post
+  editButtons.forEach(button => {
+    button.addEventListener("click", function() {
+      const postId = this.getAttribute('data-id');
+      fetchPostDataAndFillForm(postId);  // para manejar la carga de datos
     });
   });
 
-  deleteButtons.forEach((button) => {
-    button.addEventListener("click", function () {
-      const postId = this.getAttribute("data-id");
-      deletePost(postId); // Función para manejar la eliminación del post
+  deleteButtons.forEach(button => {
+    button.addEventListener("click", function() {
+      const postId = this.getAttribute('data-id');
+      deletePost(postId);  // para manejar la eliminación del post
     });
   });
 }
 
-function editPost(postId) {
-  // Aquí implementarías la lógica para cargar los datos del post en un formulario de edición
-  console.log("Edit Post ID:", postId);
+// Función para cargar los datos del post en el formulario
+function fetchPostDataAndFillForm(postId) {
+  fetch(`http://localhost:3000/posts/${postId}`)
+    .then(response => {
+      if (!response.ok) throw new Error('Failed to fetch post data');
+      return response.json();
+    })
+    .then(post => {
+      const form = document.getElementById("new-post-form");
+      form.elements["title"].value = post.title;
+      form.elements["username"].value = post.username;  
+      form.elements["content"].value = post.content;
+      form.elements["post-id"].value = post.id; 
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Error loading post data');
+    });
 }
+
+
+// function editPost(postId) {
+//   // Aquí implementarías la lógica para cargar los datos del post en un formulario de edición
+//   console.log("Edit Post ID:", postId);
+// }
 
 function deletePost(postId) {
   // Aquí implementarías la lógica para eliminar el post
@@ -145,37 +148,72 @@ export function fetchPostsAndUpdateUI() {
     });
 }
 
+// export function attachFormSubmitListener() {
+//   const form = document.getElementById("new-post-form");
+//   form.addEventListener("submit", function (event) {
+//     event.preventDefault();
+//     const formData = new FormData(this);
+//     const newPost = {
+//       title: formData.get("title"),
+//       //ver aqui!
+//       username: formData.get("username"),
+//       content: formData.get("content"),
+//     };
+
+//     fetch("http://localhost:3000/posts", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(newPost),
+//     })
+//       .then((response) => response.json())
+//       .then((post) => {
+//         alert("Post creado con éxito!");
+//         form.reset();
+//         fetchPostsAndUpdateUI(); // Recargar la lista completa de posts para incluir el nuevo
+//       })
+//       .catch((error) => {
+//         console.error("Error al crear el post:", error);
+//         alert("Error al crear el post");
+//       });
+//   });
+// }
+
 export function attachFormSubmitListener() {
   const form = document.getElementById("new-post-form");
   form.addEventListener("submit", function (event) {
     event.preventDefault();
     const formData = new FormData(this);
-    const newPost = {
+    const postId = formData.get("post-id");
+
+    const postDetails = {
       title: formData.get("title"),
-      //ver aqui!
-      username: formData.get("username"),
       content: formData.get("content"),
     };
 
-    fetch("http://localhost:3000/posts", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newPost),
-    })
-      .then((response) => response.json())
-      .then((post) => {
-        alert("Post creado con éxito!");
+    const fetchOptions = {
+      method: postId ? 'PUT' : 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(postDetails),
+    };
+
+    const url = postId ? `http://localhost:3000/posts/${postId}` : 'http://localhost:3000/posts';
+
+    fetch(url, fetchOptions)
+      .then(response => response.json())
+      .then(post => {
+        alert('Post saved successfully!');
         form.reset();
-        fetchPostsAndUpdateUI(); // Recargar la lista completa de posts para incluir el nuevo
+        fetchPostsAndUpdateUI();  // Actualiza la lista de posts
       })
-      .catch((error) => {
-        console.error("Error al crear el post:", error);
-        alert("Error al crear el post");
+      .catch(error => {
+        console.error('Error saving post:', error);
+        alert('Error saving post');
       });
   });
 }
+
 
 export function toggleListeners() {
   const toggleButtons = document.querySelectorAll(".toggle-content");
