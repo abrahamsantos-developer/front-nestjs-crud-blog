@@ -75,6 +75,7 @@ export function renderPosts(posts) {
   attachEditAndDeleteListeners();
 }
 
+
 function attachEditAndDeleteListeners() {
   const editButtons = document.querySelectorAll(".edit-post");
   const deleteButtons = document.querySelectorAll(".delete-post");
@@ -89,8 +90,25 @@ function attachEditAndDeleteListeners() {
   deleteButtons.forEach(button => {
     button.addEventListener("click", function() {
       const postId = this.getAttribute('data-id');
-      deletePost(postId);  // para manejar la eliminación del post
+      if (confirm("¿Estás seguro de que deseas eliminar este post?")) {
+        deletePost(postId);  // Función para manejar la eliminación del post
+      }
     });
+  });
+}
+
+function deletePost(postId) {
+  fetch(`http://localhost:3000/posts/${postId}`, {
+    method: 'DELETE'
+  })
+  .then(response => {
+    if (!response.ok) throw new Error('Error al eliminar el post');
+    alert('Post eliminado con éxito');
+    fetchPostsAndUpdateUI();  // Recargar la lista de posts para reflejar los cambios
+  })
+  .catch(error => {
+    console.error('Error al eliminar el post:', error);
+    alert('Error al eliminar el post');
   });
 }
 
@@ -114,23 +132,6 @@ function fetchPostDataAndFillForm(postId) {
     });
 }
 
-
-// function editPost(postId) {
-//   // Aquí implementarías la lógica para cargar los datos del post en un formulario de edición
-//   console.log("Edit Post ID:", postId);
-// }
-
-function deletePost(postId) {
-  // Aquí implementarías la lógica para eliminar el post
-  console.log("Delete Post ID:", postId);
-  // Simular eliminación por ahora
-  const index = staticPostsArray.findIndex((post) => post.id === postId);
-  if (index > -1) {
-    staticPostsArray.splice(index, 1);
-    renderPosts(); // Actualizar la lista de posts
-  }
-}
-
 //refactorizar para ordenar desde backend(DB)
 export function fetchPostsAndUpdateUI() {
   fetch('http://localhost:3000/posts')  // Ajusta la URL a tu endpoint del backend
@@ -147,38 +148,6 @@ export function fetchPostsAndUpdateUI() {
       alert('Error al recuperar posts');
     });
 }
-
-// export function attachFormSubmitListener() {
-//   const form = document.getElementById("new-post-form");
-//   form.addEventListener("submit", function (event) {
-//     event.preventDefault();
-//     const formData = new FormData(this);
-//     const newPost = {
-//       title: formData.get("title"),
-//       //ver aqui!
-//       username: formData.get("username"),
-//       content: formData.get("content"),
-//     };
-
-//     fetch("http://localhost:3000/posts", {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify(newPost),
-//     })
-//       .then((response) => response.json())
-//       .then((post) => {
-//         alert("Post creado con éxito!");
-//         form.reset();
-//         fetchPostsAndUpdateUI(); // Recargar la lista completa de posts para incluir el nuevo
-//       })
-//       .catch((error) => {
-//         console.error("Error al crear el post:", error);
-//         alert("Error al crear el post");
-//       });
-//   });
-// }
 
 export function attachFormSubmitListener() {
   const form = document.getElementById("new-post-form");
@@ -246,3 +215,4 @@ export function discardButtonListener() {
     form.reset();
   });
 }
+
