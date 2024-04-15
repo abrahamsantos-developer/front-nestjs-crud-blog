@@ -1,4 +1,3 @@
-import { staticPostsArray } from "./api.js";
 
 export function filterPosts() {
   const searchInput = document
@@ -18,51 +17,114 @@ export function filterPosts() {
   renderPosts(filteredPosts);
 }
 
-export function renderPosts(posts = staticPostsArray) {
+export function renderPosts(posts) {
   const postsListElement = document.getElementById("posts-container");
-  const html = posts
-    .map(
-      (post) =>
-        `
-        <div class="card my-2">
-            <h5 class="card-header">${post.autor}</h5>
-            <div class="card-body">
-                <h5 class="card-title">${post.titulo}</h5>
-                <h6 class="card-title">${post.fecha}</h6>
-                <p class="card-text short-text">${post.contenido.substring(
-                  0,
-                  70
-                )}...</p>
-                <p class="card-text full-text" style="display: none;">${
-                  post.contenido
-                }</p>
-                <button class="btn btn-info toggle-content">Ver más</button>
-            </div>
-        </div>
-    `
-    )
-    .join("");
+  const html = posts.map(post => {
+    return `
+      <div class="card my-2">
+          <h5 class="card-header">${post.username}</h5>
+          <div class="card-body">
+              <h5 class="card-title">${post.title}</h5>
+              <h6 class="card-title">${new Date(post.createdAt).toLocaleDateString()}</h6>
+              <p class="card-text short-text">${post.content.substring(0, 70)}...</p>
+              <p class="card-text full-text" style="display: none;">${post.content}</p>
+              <button class="btn btn-info toggle-content">Ver más</button>
+              <button class="btn btn-primary edit-post" data-id="${post.id}">Editar</button>
+              <button class="btn btn-danger delete-post" data-id="${post.id}">Eliminar</button>
+          </div>
+      </div>
+    `;
+  }).join("");
   postsListElement.innerHTML = html;
   toggleListeners();
+  attachEditAndDeleteListeners();
 }
+
+
+function attachEditAndDeleteListeners() {
+  const editButtons = document.querySelectorAll(".edit-post");
+  const deleteButtons = document.querySelectorAll(".delete-post");
+
+  editButtons.forEach(button => {
+    button.addEventListener("click", function() {
+      const postId = this.getAttribute('data-id');
+      editPost(postId);  // Función para manejar la edición del post
+    });
+  });
+
+  deleteButtons.forEach(button => {
+    button.addEventListener("click", function() {
+      const postId = this.getAttribute('data-id');
+      deletePost(postId);  // Función para manejar la eliminación del post
+    });
+  });
+}
+
+function editPost(postId) {
+  // Aquí implementarías la lógica para cargar los datos del post en un formulario de edición
+  console.log("Edit Post ID:", postId);
+}
+
+function deletePost(postId) {
+  // Aquí implementarías la lógica para eliminar el post
+  console.log("Delete Post ID:", postId);
+  // Simular eliminación por ahora
+  const index = staticPostsArray.findIndex(post => post.id === postId);
+  if (index > -1) {
+    staticPostsArray.splice(index, 1);
+    renderPosts(); // Actualizar la lista de posts
+  }
+}
+
+export function fetchPostsAndUpdateUI() {
+  fetch('http://localhost:3000/posts')  // Ajusta la URL a tu endpoint del backend
+    .then(response => {
+      if (!response.ok) throw new Error('Error al recuperar los posts');
+      return response.json();
+    })
+    .then(posts => {
+      console.log("Posts received:", posts);  // Añade un log para ver qué datos se reciben
+      renderPosts(posts);  // Suponiendo que tienes una función renderPosts para actualizar la UI
+    })
+    .catch(error => {
+      console.error('Error al recuperar posts:', error);
+      alert('Error al recuperar posts');
+    });
+}
+
 
 export function attachFormSubmitListener() {
   const form = document.getElementById("new-post-form");
   form.addEventListener("submit", function (event) {
     event.preventDefault();
-    const formData = new FormData(form);
+    const formData = new FormData(this);
     const newPost = {
-      id: staticPostsArray.length + 1,
-      titulo: formData.get("title"),
-      autor: formData.get("author"),
-      fecha: formData.get("date"),
-      contenido: formData.get("content"),
+      title: formData.get("title"),
+      //ver aqui!
+      username: formData.get("username"),
+      content: formData.get("content"),
     };
-    staticPostsArray.unshift(newPost); // Or push(), depending on desired order
-    renderPosts();
-    toggleListeners();
+
+    fetch('http://localhost:3000/posts', { 
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newPost)
+    })
+    .then(response => response.json())
+    .then(post => {
+      alert('Post creado con éxito!');
+      form.reset();
+      fetchPostsAndUpdateUI();  // Recargar la lista completa de posts para incluir el nuevo
+    })
+    .catch(error => {
+      console.error('Error al crear el post:', error);
+      alert('Error al crear el post');
+    });
   });
 }
+      
 
 export function toggleListeners() {
   const toggleButtons = document.querySelectorAll(".toggle-content");
@@ -83,6 +145,7 @@ export function toggleListeners() {
     });
   });
 }
+
 
 export function discardButtonListener() {
   const discardButton = document.getElementById("discard-button");
