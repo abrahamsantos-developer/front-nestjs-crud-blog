@@ -2,7 +2,7 @@ div.overflow {
     background: #4CAF50;
     color: white;
     width: 100%;  /* Consolidated width */
-    height: 600px;  /* Consolidated height */
+    height: 900px;  /* Consolidated height */
     overflow: scroll;
     border: 1px solid #ccc;
   }
