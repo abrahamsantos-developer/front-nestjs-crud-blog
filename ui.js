@@ -39,6 +39,7 @@ export function filterPosts() {
 }
 
 
+
 export function renderPosts(posts) {
   const postsListElement = document.getElementById("posts-container");
   const html = posts
