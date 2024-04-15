@@ -87,19 +87,20 @@ function deletePost(postId) {
   }
 }
 
+//refactorizar para ordenar desde backend(DB)
 export function fetchPostsAndUpdateUI() {
-  fetch("http://localhost:3000/posts")
-    .then((response) => {
-      if (!response.ok) throw new Error("Error al recuperar los posts");
+  fetch('http://localhost:3000/posts')  // Ajusta la URL a tu endpoint del backend
+    .then(response => {
+      if (!response.ok) throw new Error('Error al recuperar los posts');
       return response.json();
     })
-    .then((posts) => {
-      console.log("Posts recibidos:", posts); //log para ver qué datos se reciben
-      renderPosts(posts); // Suponiendo que tienes una función renderPosts para actualizar la UI
+    .then(posts => {
+      posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // Ordena por fecha, de más reciente a más antiguo
+      renderPosts(posts);  // Suponiendo que tienes una función renderPosts para actualizar la UI
     })
-    .catch((error) => {
-      console.error("Error al recuperar posts:", error);
-      alert("Error al recuperar posts");
+    .catch(error => {
+      console.error('Error al recuperar posts:', error);
+      alert('Error al recuperar posts');
     });
 }
 
