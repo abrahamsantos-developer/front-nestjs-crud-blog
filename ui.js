@@ -1,20 +1,61 @@
+// export function filterPosts() {
+//   const searchInput = document
+//     .getElementById("search-input")
+//     .value.toLowerCase();
+//   const searchType = document.getElementById("search-type").value;
+
+//   console.log("Search Input: ", searchInput); // Debug input
+//   console.log("Search Type: ", searchType); // Debug type
+
+//   const filteredPosts = staticPostsArray.filter((post) =>
+//     post[searchType].toLowerCase().includes(searchInput)
+//   );
+
+//   console.log("Posts filtrados: ", filteredPosts);
+
+//   renderPosts(filteredPosts);
+// }
+
 export function filterPosts() {
-  const searchInput = document
-    .getElementById("search-input")
-    .value.toLowerCase();
+  const searchInput = document.getElementById("search-input").value.toLowerCase();
   const searchType = document.getElementById("search-type").value;
+  let url = `http://localhost:3000/posts`;
 
-  console.log("Search Input: ", searchInput); // Debug input
-  console.log("Search Type: ", searchType); // Debug type
+  switch (searchType) {
+    case "username":
+      url += `/author/${searchInput}`;
+      break;
+    case "title":
+      url += `/title/${searchInput}`;
+      break;
+    case "content":
+      url += `/content/${searchInput}`;
+      break;
+    default:
+      console.error("Tipo de búsqueda no soportado:", searchType);
+      return;
+  }
 
-  const filteredPosts = staticPostsArray.filter((post) =>
-    post[searchType].toLowerCase().includes(searchInput)
-  );
-
-  console.log("Posts filtrados: ", filteredPosts);
-
-  renderPosts(filteredPosts);
+  fetch(url)
+    .then(response => {
+      if (!response.ok) throw new Error(`Error al recuperar los posts: ${response.statusText}`);
+      return response.json();
+    })
+    .then(posts => {
+      if (posts.length > 0) {
+        renderPosts(posts);
+      } else {
+        console.log("No se encontraron posts con los criterios de búsqueda.");
+        alert("No se encontraron posts con los criterios de búsqueda.");
+      }
+    })
+    .catch(error => {
+      console.error("Error en la petición de filtrado:", error);
+      alert("Error al recuperar posts filtrados");
+    });
 }
+
+
 
 export function renderPosts(posts) {
   const postsListElement = document.getElementById("posts-container");
@@ -22,9 +63,9 @@ export function renderPosts(posts) {
     .map((post) => {
       return `
       <div class="card my-2">
-          <h5 class="card-header">${post.username}</h5>
+          <h5 class="card-header">${post.title}</h5>
           <div class="card-body">
-              <h5 class="card-title">${post.title}</h5>
+              <h5 class="card-title">${post.username}</h5>
               <h6 class="card-title">${new Date(
                 post.createdAt
               ).toLocaleDateString()}</h6>
