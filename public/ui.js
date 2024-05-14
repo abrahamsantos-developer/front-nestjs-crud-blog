@@ -133,7 +133,7 @@ function fetchPostDataAndFillForm(postId) {
     });
 }
 
-//refactorizar para ordenar desde backend(DB)
+//refactor to order from BE
 export function fetchPostsAndUpdateUI() {
   fetch('http://localhost:3000/api/posts')  // Ajusta la URL a tu endpoint del backend
     .then(response => {
